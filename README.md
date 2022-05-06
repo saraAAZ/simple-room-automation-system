@@ -1,6 +1,6 @@
 # simple-room-automation-system
 
--Description
+# Description
 Design a simple room automation system that monitors both temperature, light level
 and smoke in a room. If the system detects that temperature reaches 26°C it drives a fan
 (DC motor) to run and the speed of rotation depends on room temperature(the more
@@ -11,10 +11,10 @@ luminance). It is expected from the system to detect if there is a fire (smoke) 
 room and generate an alarm for the user. The user can also turn the system ON/OFF
 using switch.
 
--Project Implementation:
+# Project Implementation:
 Simulate the above design using TinkerCAD online simulator.
 
--System Components:
+# System Components:
 1. 1X Arduino UNO
 2. 1X Motor Driver IC L293d
 3. 1X DC Motor
