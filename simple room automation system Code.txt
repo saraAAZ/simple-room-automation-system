@@ -1,0 +1,100 @@
+//Variables Definition 
+
+double temp; 
+int sensorInput;
+int speedMotor;
+int led;
+int motionSensor;
+int Photoresistor;
+int gasSensor ;
+
+//System Functions
+
+
+
+//this Function detects that temperature reaches 26°C it drives a fan(DC motor) to run and the speed of rotation ..
+//depends on room temperature(the more
+temperature the more speed).
+void TempSens(){
+  sensorInput = analogRead(A0); //read the analog sensor and store it
+  temp = (double)sensorInput / 1024.0; //find percentage of input reading
+  temp = temp * 5; //multiply by 5V to get voltage
+  temp = (temp-0.5) * 100; //Convert to degrees
+  if(temp >=26){
+    //If the Temperature >= 26 set the values of motor to different values
+    speedMotor = map(temp,-40.23, 124.80, 0, 255);
+  }else{
+     //If the Temperature <= 26 set the values of motor to Zero
+    speedMotor=0;
+  }
+  digitalWrite(3,speedMotor);//Write the speed on The DC Motor
+}
+
+
+
+//This Function  read light level and if there is a motion in the room ..
+//it controls light(LED) level according to luminance/darkness in room
+//(the more darkness the more light luminance).
+void MotonSens(){
+  
+  motionSensor=digitalRead(4);//Read Digital INPUT From Pin 4 
+  Photoresistor=analogRead(A1);//Read Analog INPUT From Pin A1
+  
+  if(motionSensor == 1){
+    //If The motionSensor Input HIGH Change the vlues of the Led
+    led=map(Photoresistor,54,974,255,0);
+    //Led used map to map that range of values of led to a different range of values (photoresistor values).
+  }else{
+     led=0; 
+    //If the motionSensor Input LOW Set the Vlue of Led to Zero
+  }
+  analogWrite(A2,led);//Write The Vale to the LED
+}
+
+
+//This Function detect if there is a fire (smoke) in the room
+//and generate an alarm for the user.
+void gasSens(){
+  
+   gasSensor = analogRead(A4);//read Analog Input From A4
+    if (gasSensor > 400){
+      tone(9, 1000, 500);
+      //digitalWrite (9, HIGH);
+     }else{
+       noTone(9);
+       //digitalWrite(9, LOW);
+     }
+}
+
+//Setup
+void setup()
+{
+  pinMode(A0, INPUT);//Read Input From TMP.
+  pinMode(3,OUTPUT);//Write OUTPUT on DC Motor.
+  pinMode(4,INPUT);//Read INPUT From Motion Sensor.
+  pinMode(A2,OUTPUT);//Write OUTPUT to the LED.
+  pinMode(A1,INPUT);//Read INPUT From photoresistors.
+  pinMode(9, OUTPUT);//Write OUTPUT From Buzzer.
+  pinMode(A4, INPUT);//Read INPUT From Gas sensor.
+  pinMode(7,INPUT_PULLUP);//Read INPUT From the Switch.
+  Serial.begin(9600);
+  
+}
+
+//Loop 
+void loop()
+{
+  int switchOn=digitalRead(7);//Read INPUT From the Switch
+  if(switchOn==1){//Switch ON DO
+    TempSens();
+    MotonSens();
+    gasSens();
+  }else{//Switch OFF Doo
+    digitalWrite(3,0);
+    analogWrite(A2,0);
+  }
+  
+}
+
+
+
