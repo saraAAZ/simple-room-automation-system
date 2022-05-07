@@ -26,3 +26,5 @@ Simulate the above design using TinkerCAD online simulator.
 8. 1X Buzzer
 9. 1X Motion sensor
 10. 1X Switch
+
+<img width="650" alt="Diagram" src="https://user-images.githubusercontent.com/70340194/167230785-4d8e39a4-200a-4c6c-94f3-b1f9b930caf2.png">
